@@ -1,4 +1,4 @@
-// (a4/200 f3/500 [(b3/300) (f3/100 f6/200)] {e3/200 b2/300}:3)
+// (a4/200 f3/500 [(b3/300) (f3/100 f6/200)] (e3/200 b2/300):3)
 
 {
   function buildTree(tag, ns) {
@@ -25,15 +25,21 @@ note
   = p:pitch "/" d:duration { return {tag: "note", pitch: p, dur: d}; }
 
 elem
-  = note / harmony / repeat
+  = note / harmony / elemlist
 
 spaceelem
   = whitespace+ e:elem { return e; }
 
+repeat
+  = ":" r:number { return r; }
+
 elemlist
-  = "(" e:elem es:spaceelem* ")" {
+  = "(" e:elem es:spaceelem* ")" r:repeat? {
+    var ess = [], i;
+    if (r === "") r = 1
     es.unshift(e);
-    return buildTree("seq", es);
+    for (i = 0; i < r; i++) ess = ess.concat(es);
+    return buildTree("seq", ess);
   }
 
 spaceelemlist
@@ -43,12 +49,4 @@ harmony
   = "[" el:elemlist els:spaceelemlist+ "]" {
     els.unshift(el);
     return buildTree("par", els);
-  }
-
-repeat
-  = "{" e:elem es:spaceelem* "}:" t:number {
-    var ess = [], i;
-    es.unshift(e);
-    for (i = 0; i < t; i++) ess = ess.concat(es);
-    return buildTree("seq", ess);
   }

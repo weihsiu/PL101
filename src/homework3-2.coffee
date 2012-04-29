@@ -57,7 +57,7 @@ assertParse "elemlist", "([(a1/100 b2/200) (b2/200 c3/300)] d4/400)",
   right:
     tag: "note", pitch: "d4", dur: 400
 
-assertParse "elemlist", "({a1/100 a2/200}:2)", 
+assertParse "elemlist", "((a1/100 a2/200):2)", 
   tag: "seq"
   left:
     tag: "note", pitch: "a1", dur: 100
