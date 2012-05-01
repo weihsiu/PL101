@@ -2,14 +2,18 @@ start
   = whitespace* e:expr whitespace* { return e; }
     
 validchar
-  = [0-9a-zA-Z_?!+\-=@#$%^&*/.]
+  = [0-9a-zA-Z_?!+\-=<@#$%^&*/.]
 
 whitespace
   = [ \t\r\n]
   / comment
 
 atom
-  = cs:validchar+ { return cs.join(""); }
+  = cs:validchar+ {
+    var a = cs.join("");
+    var n = parseInt(a, 10);
+    return isNaN(n) ? a : n;
+  }
     
 quoteexpr
   = "'" e:expr { return ["quote", e]; }
