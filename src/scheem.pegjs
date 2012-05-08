@@ -22,7 +22,7 @@ spaceexpr
   = whitespace+ e:expr { return e; }
     
 exprlist
-  = "(" whitespace* e:expr es:spaceexpr* whitespace* ")" { es.unshift(e); return es; }
+  = "(" whitespace* e:expr? es:spaceexpr* whitespace* ")" { es.unshift(e); return es; }
     
 comment
   = ";;" [^\r\n]*

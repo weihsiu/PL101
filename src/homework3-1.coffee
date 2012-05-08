@@ -15,4 +15,5 @@ assertParse "'(a b c)", ["quote", ["a", "b", "c"]]
 assertParse "(a 'b '(c))", ["a", ["quote", "b"], ["quote", ["c"]]]
 assertParse "a ;; hello", "a"
 assertParse "(a ;; hello\nb)", ["a", "b"]
-assertParse "  ;; hello\n;; world\n(a b c)", ["a", "b", "c"]
+assertParse ";; hello\n;; world\n(a b c)", ["a", "b", "c"]
+assertParse "(1 2 3)", [1, 2, 3]
